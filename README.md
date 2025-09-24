@@ -15,6 +15,7 @@ Repositório para o seminário da disciplina **Projeto e Análise de Algoritmos 
 ## Estrutura do repositório
 
 pcc-ufs-seminario-carteiro-chines/
+
 ├── src/  
 │   └── pcc/  
 │       ├── __init__.py                # inicialização do pacote  
