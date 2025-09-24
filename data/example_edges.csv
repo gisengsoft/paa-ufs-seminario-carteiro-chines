@@ -1,0 +1,9 @@
+# filepath: data/example_edges.csv
+u,v,w
+A,B,2
+A,C,3
+B,C,1
+B,D,2
+C,D,4
+C,E,2
+D,E,3
