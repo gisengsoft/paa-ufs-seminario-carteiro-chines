@@ -114,9 +114,8 @@ if __name__ == "__main__":
     main()
 PY
 
-# exemplo de dados
+# exemplo de dados (sem linha comentada)
 cat > data/example_edges.csv <<'CSV'
-# filepath: data/example_edges.csv
 u,v,w
 A,B,2
 A,C,3
