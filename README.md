@@ -1,14 +1,14 @@
 # Seminário — Problema do Carteiro Chinês (PCC)
 
-Repositório para o seminário da disciplina Projeto e Análise de Algoritmos (PAA/UFS) sobre o Problema do Carteiro Chinês (versão não dirigida). Contém código Python reprodutível, dados de exemplo, slides e instruções de execução.
+Repositório para o seminário da disciplina **Projeto e Análise de Algoritmos (PAA/UFS)** sobre o **Problema do Carteiro Chinês** (versão não dirigida). Contém código Python reprodutível, dados de exemplo, slides e instruções de execução.
 
 ---
 
 ## Objetivos
-- Contextualizar o PCC em grafos (roteirização e inspeção de arestas).
-- Apresentar a formulação do problema e objetivos.
-- Explicar a solução ótima em grafos não dirigidos (eulerização por pareamento mínimo + circuito de Euler).
-- Demonstrar um exemplo prático em Python.
+- Contextualizar o Problema do Carteiro Chinês (PCC) em grafos, abordando a roteirização e a inspeção de arestas.
+- Apresentar a formulação do problema e seus objetivos.
+- Explicar a solução ótima para grafos não dirigidos, utilizando **eulerização por pareamento mínimo** e **circuito de Euler**.
+- Demonstrar uma implementação prática da solução em Python.
 
 ---
 
@@ -36,8 +36,8 @@ pcc-ufs-seminario-carteiro-chines/
 ---
 
 ## Pré‑requisitos
-- Python 3.11+
-- pip
+- Python 3.11+  
+- pip (gerenciador de pacotes do Python)
 
 ---
 
@@ -61,7 +61,7 @@ Dependências principais:
 ---
 
 ## Executar o exemplo (CLI)
-A CLI lê um CSV com colunas `u,v,w` em `data/example_edges.csv`, resolve o PCC e imprime custo e circuito. Use `--draw` para salvar uma figura em `out/solution.png`.
+A interface de linha de comando (CLI) lê um arquivo CSV com as colunas u,v,w em data/example_edges.csv, resolve o PCC e imprime o custo e o circuito Euleriano. Use a opção --draw para salvar uma figura em out/solution.png.
 
 - Usando Makefile:
   make run
@@ -72,15 +72,15 @@ A CLI lê um CSV com colunas `u,v,w` em `data/example_edges.csv`, resolve o PCC 
 Saída esperada:
 - Custo mínimo total da rota que cobre todas as arestas ao menos uma vez.
 - Sequência de arestas do circuito euleriano após eulerização.
-- `out/solution.png` com o grafo e o circuito destacado (quando usar `--draw`).
+- Arquivo `out/solution.png` com o grafo e o circuito destacado (caso o `--draw` seja usado).
 
 ---
 
 ## Como o algoritmo funciona (resumo)
-1. Verifica se o grafo é euleriano (todos os graus pares). Se sim, extrai o circuito de Euler.
-2. Caso contrário, identifica os vértices de grau ímpar.
-3. Calcula distâncias mínimas entre todos os pares de vértices ímpares e resolve pareamento perfeito mínimo.
-4. Duplica arestas ao longo dos caminhos mínimos dos pares selecionados (eulerização).
+1. Verifica se o grafo é Euleriano (todos os vértices possuem grau par). Caso afirmativo, extrai o circuito de Euler.
+2. Se não for Euleriano, identifica os vértices de grau ímpar.
+3. Calcula as distâncias mínimas entre todos os pares de vértices ímpares e resolve o pareamento perfeito mínimo.
+4. Duplica as arestas ao longo dos caminhos mínimos dos pares selecionados (eulerização).
 5. No multigrafo resultante, extrai um circuito de Euler — solução ótima para grafos não dirigidos.
 
 Arquivos relevantes:
@@ -91,7 +91,7 @@ Arquivos relevantes:
 ---
 
 ## Dados do exemplo
-`data/example_edges.csv` (formato CSV: u,v,w)
+Instância de exemplo `data/example_edges.csv` (formato CSV: u,v,w)
 
 ```
 u,v,w
@@ -107,7 +107,7 @@ D,E,3
 ---
 
 ## Testes
-Executa um teste mínimo que verifica:
+Executa um teste mínimo para garantir que:
 - O custo retornado é pelo menos o custo base das arestas.
 - O circuito retornado não é vazio.
 
@@ -128,7 +128,14 @@ Slides em Markdown (Marp) e exportados para PDF.
   ou  
   marp slides/seminario.md --pdf --allow-local-files -o slides/seminario.pdf
 
-Sugestão de conteúdo: Introdução, Definição do problema, Algoritmo (não dirigido), Exemplo prático, Demonstração (CLI), Referências.
+Sugestão de conteúdo dos Slides:
+
+- Introdução
+- Definição do problema
+- Algoritmo (não dirigido)
+- Exemplo prático
+- Demonstração (CLI)
+- Referências.
 
 ---
 
