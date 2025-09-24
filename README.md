@@ -126,7 +126,7 @@ Abaixo está um exemplo gráfico do **Problema do Carteiro Chinês** aplicado a 
 - Arestas representam ruas, com pesos equivalentes a distâncias.
 - O caminho ótimo encontrado pelo algoritmo está destacado em **vermelho**.
 
-![Exemplo do Problema do Carteiro Chinês](file://C:\Users\gilso\Downloads\pcc_exemplo.png?msec=1758736040806)
+![Exemplo do Problema do Carteiro Chinês](pcc_exemplo.png)
 
 ---
 
