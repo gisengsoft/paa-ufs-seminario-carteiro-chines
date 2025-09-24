@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.DS_Store
+.env
+dist/
+build/
+*.egg-info/
+.ipynb_checkpoints/
+slides/seminario.pdf
+
+# Test & coverage
+.coverage
+htmlcov/
+
+# Caches
+.mypy_cache/
+.pytest_cache/
