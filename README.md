@@ -265,9 +265,7 @@ npx @marp-team/marp-cli slides/seminario.md -o slides/seminario.pdf
 - `ModuleNotFoundError: pcc`: defina `PYTHONPATH=src` como nos comandos acima.
 - Grafo real desconexo: use `--largest-component` ou aumente `--snap-m` no conversor.
 - Sem `make` no Windows: use os comandos PowerShell ou crie um `make.ps1` com atalhos.
-- Ambiente sem GUI (servidor/CI): gere apenas arquivo com `--save-plot out/fig.png` (omita `--plot`) para não abrir janela gráfica.
- - Ambiente sem GUI (servidor/CI): gere o arquivo com `--plot --save-plot out/fig.png` (não abrirá janela interativa).
-
+- Ambiente sem GUI (servidor/CI): gere o arquivo com `--plot --save-plot out/fig.png` (não abrirá janela interativa).
 ---
 
 ## Exemplo ilustrativo
