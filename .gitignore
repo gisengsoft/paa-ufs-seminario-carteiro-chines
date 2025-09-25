@@ -4,3 +4,7 @@ __pycache__/
 out/
 *.pyc
 *.pkl
+.venv/
+venv/
+**/__pycache__/
+*.pyc
