@@ -161,6 +161,25 @@ Flags da CLI
 - `--save-tour PATH`: salva o tour (sequência de vértices) em texto.
 - `--largest-component`: usa apenas o maior componente conexo (útil em dados reais desconexos).
 
+Exemplos rápidos
+
+Windows (PowerShell)
+
+```powershell
+$env:PYTHONPATH="src"
+# Salvar apenas o tour (sem abrir janela)
+python -m pcc.solve_cli --input data\example_edges.csv --save-tour out\example_tour.txt
+# Usar apenas o maior componente e salvar o plot
+python -m pcc.solve_cli --input data\real_edges.csv --largest-component --save-plot out\real_solution.png
+```
+
+Linux/macOS
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --save-tour out/example_tour.txt
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --largest-component --save-plot out/real_solution.png
+```
+
 Saída esperada (o tour pode variar):
 
 ```
