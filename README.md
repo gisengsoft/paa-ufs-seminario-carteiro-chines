@@ -161,25 +161,6 @@ Flags da CLI
 - `--save-tour PATH`: salva o tour (sequência de vértices) em texto.
 - `--largest-component`: usa apenas o maior componente conexo (útil em dados reais desconexos).
 
-Exemplos rápidos
-
-Windows (PowerShell)
-
-```powershell
-$env:PYTHONPATH="src"
-# Salvar apenas o tour (sem abrir janela)
-python -m pcc.solve_cli --input data\example_edges.csv --save-tour out\example_tour.txt
-# Usar apenas o maior componente e salvar o plot
-python -m pcc.solve_cli --input data\real_edges.csv --largest-component --save-plot out\real_solution.png
-```
-
-Linux/macOS
-
-```bash
-PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --save-tour out/example_tour.txt
-PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --largest-component --save-plot out/real_solution.png
-```
-
 Saída esperada (o tour pode variar):
 
 ```
@@ -285,6 +266,7 @@ npx @marp-team/marp-cli slides/seminario.md -o slides/seminario.pdf
 - Grafo real desconexo: use `--largest-component` ou aumente `--snap-m` no conversor.
 - Sem `make` no Windows: use os comandos PowerShell ou crie um `make.ps1` com atalhos.
 - Ambiente sem GUI (servidor/CI): gere apenas arquivo com `--save-plot out/fig.png` (omita `--plot`) para não abrir janela gráfica.
+ - Ambiente sem GUI (servidor/CI): gere o arquivo com `--plot --save-plot out/fig.png` (não abrirá janela interativa).
 
 ---
 
