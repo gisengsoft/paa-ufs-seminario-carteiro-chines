@@ -46,9 +46,36 @@ Repositório do seminário da disciplina PAA/UFS sobre o Problema do Carteiro Ch
 
 ---
 
-## Instalação
+## Quickstart
 
-Crie/ative a venv e instale as dependências.
+Windows (PowerShell)
+
+```powershell
+python -m venv .venv
+. .\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\example_edges.csv --plot --save-plot out\example.png --save-tour out\example_tour.txt
+```
+
+Se o PowerShell não propagar `PYTHONPATH`, use o cmd como alternativa:
+
+```powershell
+cmd /d /c "set PYTHONPATH=src&& python -m pcc.solve_cli --input data\example_edges.csv"
+```
+
+Linux/macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --plot --save-plot out/example.png --save-tour out/example_tour.txt
+```
+
+---
+
+## Instalação
 
 Windows (PowerShell)
 
@@ -81,6 +108,12 @@ B,D,4
 C,E,2
 D,E,3
 ```
+
+Nota sobre pesos (w)
+
+- A coluna `w` representa o custo da aresta e deve ser não negativa.
+- Se você usar o conversor `tools/geojson_to_csv.py`, `w` será a distância geodésica em metros.
+- Você pode usar outras unidades (km, tempo, custo monetário); apenas mantenha a unidade consistente — o algoritmo minimiza a soma dos pesos.
 
 Windows (PowerShell)
 
@@ -219,4 +252,4 @@ Abaixo está um exemplo gráfico do **Problema do Carteiro Chinês** aplicado a 
 ## Autores
 
 - Gilson Inácio da Silva
-- Ederson
+- Ederson Manoel de Oliveira
