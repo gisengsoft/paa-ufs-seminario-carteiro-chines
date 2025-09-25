@@ -52,11 +52,9 @@ pcc-ufs-seminario-carteiro-chines/
 Crie e ative um ambiente virtual e instale as dependências:
 
 python -m venv .venv
-
-Linux/macOS
+# Linux/macOS
 . .venv/bin/activate
-
-Windows (PowerShell)
+# Windows (PowerShell)
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
@@ -71,12 +69,10 @@ matplotlib~=3.9
 
 A CLI lê um CSV `u,v,w` em `data/example_edges.csv`, resolve o PCC e imprime custo e circuito; com `--draw`, salva `out/solution.png`.
 
-usando Makefile
+# Usando Makefile
 make run
-
-diretamente
+# Diretamente
 python -m pcc.solve_cli --edgelist data/example_edges.csv --draw
-
 
 Saída esperada:
 - Custo mínimo total para cobrir todas as arestas ao menos uma vez.
@@ -128,21 +124,15 @@ Abaixo está um exemplo gráfico do **Problema do Carteiro Chinês** aplicado a 
 
 ---
 
+## Estudo de caso real (Bairro Atalaia) - comandos
 
-
-
-## Estudo de caso real (Bairro Atalaia)
-
-Fluxo leve sem libs pesadas:
-1) No site Overpass Turbo, consulte as ruas da Atalaia (ex.: `highway=residential in "Atalaia, Aracaju"`), execute e exporte GeoJSON.  
-2) Converta para CSV `u,v,w`:
-
+# 1) converter GeoJSON -> CSV
 python tools/geojson_to_csv.py data/osm_subgraph.geojson data/real_edges.csv
-
-3) Resolva e gere a imagem da rota:
-
+# 2) Resolva e gere a imagem da rota
 python -m pcc.solve_cli --edgelist data/real_edges.csv --draw
 
+# 3) Fluxo leve sem libs pesadas:
+No site Overpass Turbo, consulte as ruas da Atalaia (ex.: `highway=residential in "Atalaia, Aracaju"`), execute e exporte GeoJSON.  
 
 Inclua a figura e o custo nos slides, citando a fonte OSM (ver seção de créditos abaixo).
 
@@ -151,23 +141,21 @@ Inclua a figura e o custo nos slides, citando a fonte OSM (ver seção de crédi
 ## Testes
 
 pytest -q
-
-ou
+# ou
 make test
 
 ---
 
 ## Slides
 
-- Editar `slides/seminario.md` (Marp) e exportar PDF:
-
 make slides
-
-ou:
+# ou:
 marp slides/seminario.md --pdf --allow-local-files -o slides/seminario.pdf
 
 
-Sugestão de roteiro: Introdução → Problema → Algoritmo → Exemplo → Estudo de caso → Demonstração → Referências.
+## Sugestão de roteiro: 
+
+Introdução → Problema → Algoritmo → Exemplo → Estudo de caso → Demonstração → Referências.
 
 ---
 
