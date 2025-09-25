@@ -4,6 +4,12 @@ Repositório do seminário da disciplina PAA/UFS sobre o Problema do Carteiro Ch
 
 ---
 
+Try it (rápido)
+
+- Quer ver funcionando em 1 minuto? Vá direto para o [Quickstart](#quickstart).
+
+---
+
 ## Objetivos
 
 - Contextualizar o problema e aplicações (coleta de lixo, varrição, leitura de medidores etc.).
@@ -71,6 +77,16 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --plot --save-plot out/example.png --save-tour out/example_tour.txt
+```
+
+Windows (com make.ps1)
+
+```powershell
+.\make.ps1 install
+.\make.ps1 run
+.\make.ps1 plot   # gera e salva a figura em out\example.png
+.\make.ps1 real
+.\make.ps1 test
 ```
 
 ---
