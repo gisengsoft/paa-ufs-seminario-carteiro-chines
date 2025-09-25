@@ -40,6 +40,7 @@ Try it (rápido)
 │   └── seminario.pdf               # exportado
 ├── requirements.txt                # networkx, matplotlib, pytest
 ├── Makefile                        # atalhos (Unix/Git Bash)
+├── make.ps1                        # atalhos (Windows/PowerShell)
 └── README.md
 ```
 
@@ -185,6 +186,7 @@ Arquivos: `src/pcc/chinese_postman.py` (solver), `src/pcc/solve_cli.py` (CLI/plo
 ## Estudo de caso real (OSM)
 
 1) Converter GeoJSON → CSV `u,v,w` (ajuste a junção de nós com `--snap-m`, em metros):
+  - Observação: `tools/geojson_to_csv.py` usa apenas a biblioteca padrão do Python (sem dependências extras).
 
 Windows (PowerShell)
 
@@ -217,6 +219,29 @@ Inclua a figura e o custo nos slides (com o crédito do OSM).
 
 ---
 
+## Compatibilidade/aliases da CLI
+
+Os aliases abaixo são equivalentes às flags principais e existem por conveniência.
+
+Windows (PowerShell)
+
+```powershell
+$env:PYTHONPATH="src"
+# --input ≡ --edgelist
+python -m pcc.solve_cli --edgelist data\example_edges.csv
+# --plot ≡ --draw
+python -m pcc.solve_cli --input data\example_edges.csv --draw --save-plot out\example.png
+```
+
+Linux/macOS
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --edgelist data/example_edges.csv
+PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --draw --save-plot out/example.png
+```
+
+---
+
 ## Testes
 
 ```bash
@@ -240,6 +265,7 @@ npx @marp-team/marp-cli slides/seminario.md -o slides/seminario.pdf
 - `ModuleNotFoundError: pcc`: defina `PYTHONPATH=src` como nos comandos acima.
 - Grafo real desconexo: use `--largest-component` ou aumente `--snap-m` no conversor.
 - Sem `make` no Windows: use os comandos PowerShell ou crie um `make.ps1` com atalhos.
+- Ambiente sem GUI (servidor/CI): gere apenas arquivo com `--save-plot out/fig.png` (omita `--plot`) para não abrir janela gráfica.
 
 ---
 
