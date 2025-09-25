@@ -32,7 +32,7 @@ Try it (rápido)
 │   ├── example_edges.csv           # instância didática
 │   └── osm_subgraph.geojson        # (opcional) subgrafo OSM
 ├── tools/
-│   └── geojson_to_csv.py           # GeoJSON → CSV u,v,w (leve)
+│   └── geojson_to_csv.py           # GeoJSON → CSV u,v,w + nodes (leve)
 ├── tests/
 │   └── test_example.py             # teste mínimo
 ├── slides/
@@ -85,8 +85,8 @@ Windows (com make.ps1)
 ```powershell
 .\make.ps1 install
 .\make.ps1 run
-.\make.ps1 plot   # gera e salva a figura em out\example.png
-.\make.ps1 real
+.\make.ps1 plot   # salva out\example.png/out\example_tour.txt e copia a imagem para slides\img\example.png
+.\make.ps1 real   # gera real_edges/nodes, salva PNG/TXT/GeoJSON/GPX e copia a imagem para slides\img\real_solution.png
 .\make.ps1 test
 ```
 
@@ -159,12 +159,16 @@ Flags da CLI
 - `--plot` (alias: `--draw`): exibe/gera figura com arestas duplicadas.
 - `--save-plot PATH`: salva a figura (PNG/SVG).
 - `--save-tour PATH`: salva o tour (sequência de vértices) em texto.
+- `--nodes PATH`: CSV de nós (`id,lat,lon`) para plot/export georreferenciado.
+- `--save-geojson PATH`: exporta o tour em GeoJSON (requer `--nodes`).
+- `--save-gpx PATH`: exporta o tour em GPX (requer `--nodes`).
 - `--largest-component`: usa apenas o maior componente conexo (útil em dados reais desconexos).
+- Estilo/legibilidade: `--node-size`, `--label-size`, `--edge-alpha`, `--layout-k`.
 
 Saída esperada (o tour pode variar):
 
 ```
-Total cost: 16.0
+Custo Total: 16.0
 Tour: A -> C -> E -> D -> B -> C -> B -> A
 ```
 
@@ -185,37 +189,41 @@ Arquivos: `src/pcc/chinese_postman.py` (solver), `src/pcc/solve_cli.py` (CLI/plo
 
 ## Estudo de caso real (OSM)
 
-1) Converter GeoJSON → CSV `u,v,w` (ajuste a junção de nós com `--snap-m`, em metros):
+1) Converter GeoJSON → CSV `u,v,w` e nós (`id,lat,lon`) — ajuste `--snap-m` (em metros):
   - Observação: `tools/geojson_to_csv.py` usa apenas a biblioteca padrão do Python (sem dependências extras).
 
 Windows (PowerShell)
 
 ```powershell
-python tools\geojson_to_csv.py data\osm_subgraph.geojson data\real_edges.csv --snap-m 8
+python tools\geojson_to_csv.py data\osm_subgraph.geojson data\real_edges.csv --snap-m 8 --nodes-out data\real_nodes.csv
 ```
 
 Linux/macOS
 
 ```bash
-python tools/geojson_to_csv.py data/osm_subgraph.geojson data/real_edges.csv --snap-m 8
+python tools/geojson_to_csv.py data/osm_subgraph.geojson data/real_edges.csv --snap-m 8 --nodes-out data/real_nodes.csv
 ```
 
-2) Resolver restringindo ao maior componente e salvar artefatos para os slides:
+2) Resolver focando no maior componente, georreferenciando com `--nodes` e exportando artefatos:
 
 Windows (PowerShell)
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m pcc.solve_cli --input data\real_edges.csv --largest-component --plot --save-plot out\real_solution.png --save-tour out\real_tour.txt
+python -m pcc.solve_cli --input data\real_edges.csv --nodes data\real_nodes.csv --largest-component --plot `
+  --save-plot out\real_solution.png --save-tour out\real_tour.txt `
+  --save-geojson out\real_tour.geojson --save-gpx out\real_tour.gpx
 ```
 
 Linux/macOS
 
 ```bash
-PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --largest-component --plot --save-plot out/real_solution.png --save-tour out/real_tour.txt
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/real_nodes.csv --largest-component --plot \
+  --save-plot out/real_solution.png --save-tour out/real_tour.txt \
+  --save-geojson out/real_tour.geojson --save-gpx out/real_tour.gpx
 ```
 
-Inclua a figura e o custo nos slides (com o crédito do OSM).
+Observação: os alvos `plot` e `real` já copiam as imagens atualizadas para `slides/img/`.
 
 ---
 
