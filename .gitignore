@@ -1,6 +1,0 @@
-# filepath: .gitignore
-.venv/
-__pycache__/
-out/
-*.pyc
-*.pkl
