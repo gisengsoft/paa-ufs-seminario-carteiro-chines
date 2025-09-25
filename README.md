@@ -8,99 +8,97 @@ Repositório para o seminário da disciplina **Projeto e Análise de Algoritmos 
 
 - Contextualizar o Problema do Carteiro Chinês (PCC) em grafos, abordando a roteirização e a inspeção de arestas.
 - Apresentar a formulação do problema e seus objetivos.
-- Explicar a solução ótima para grafos não dirigidos, utilizando **eulerização por pareamento mínimo** e **circuito de Euler**.
-- Demonstrar uma implementação prática da solução em Python.
+- Explicar a solução ótima para grafos não dirigidos, utilizando eulerização por pareamento mínimo e circuito de Euler.
+- Demonstrar uma implementação prática da solução em Python com exemplo executável.
 
 ---
 
 ## Estrutura do repositório
 
+<pre>
 pcc-ufs-seminario-carteiro-chines/
-
-├── src/  
-│ └── pcc/  
-│ ├── __init__.py # inicialização do pacote  
-│ ├── chinese_postman.py # algoritmo do PCC (não dirigido)  
-│ ├── graph_io.py # carregamento de grafo a partir de CSV u,v,w  
-│ └── solve_cli.py # interface de linha de comando (execução/demonstração)  
-├── data/  
-│ └── example_edges.csv # instância de exemplo (u,v,w)  
-├── slides/  
-│ ├── seminario.md # slides em Markdown (Marp)  
-│ └── seminario.pdf # PDF exportado  
-├── tests/  
-│ └── test_example.py # teste mínimo do exemplo  
-├── README.md # este arquivo  
-├── requirements.txt # dependências (networkx, matplotlib, etc.)  
-├── Makefile # atalhos (run, test, slides)  
-└── .gitignore # arquivos/pastas ignorados pelo git
-
----
-
-## Pré-requisitos
-
-- Python 3.11+
-- pip (gerenciador de pacotes do Python)
+├── src/
+│   └── pcc/
+│       ├── __init__.py
+│       ├── chinese_postman.py        # algoritmo do PCC (não dirigido)
+│       ├── graph_io.py               # leitura de CSV u,v,w
+│       └── solve_cli.py              # CLI (execução e desenho opcional)
+├── data/
+│   ├── example_edges.csv             # instância didática
+│   └── real_edges.csv                # instância real (Atalaia) – opcional
+├── slides/
+│   ├── seminario.md                  # slides (Marp)
+│   └── seminario.pdf                 # slides exportados
+├── tests/
+│   └── test_example.py               # teste mínimo do exemplo
+├── tools/
+│   └── geojson_to_csv.py             # conversor GeoJSON → CSV u,v,w (leve)
+├── README.md
+├── requirements.txt                  # networkx, matplotlib
+├── Makefile                          # atalhos (run, test, slides)
+└── .gitignore
+</pre>
 
 ---
 
-## Instalação (rápida)
+## Pré‑requisitos
 
-1. Criar ambiente virtual:
-  python -m venv .venv
-  
-2. Ativar:
-  
-  - Linux/macOS:
-    . .venv/bin/activate
-  - Windows (PowerShell):
-    .venv\Scripts\Activate.ps1
-3. Instalar dependências:
-  pip install -r requirements.txt
-  
+- Python 3.11+ instalado.
+
+---
+
+## Instalação
+
+Crie e ative um ambiente virtual e instale as dependências:
+
+python -m venv .venv
+
+Linux/macOS
+. .venv/bin/activate
+
+Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 
 Dependências principais:
 
-- networkx~=3.3
-- matplotlib~=3.9
+networkx~=3.3
+matplotlib~=3.9
 
 ---
 
-## Executar o exemplo (CLI)
+## Executar o exemplo (didático)
 
-A interface de linha de comando (CLI) lê um arquivo CSV com as colunas u,v,w em data/example_edges.csv, resolve o PCC e imprime o custo e o circuito Euleriano. Use a opção --draw para salvar uma figura em out/solution.png.
+A CLI lê um CSV `u,v,w` em `data/example_edges.csv`, resolve o PCC e imprime custo e circuito; com `--draw`, salva `out/solution.png`.
 
-- Usando Makefile:
-  make run
-  
-- Diretamente:
-  python -m pcc.solve_cli --edgelist data/example_edges.csv --draw
-  
+usando Makefile
+make run
+
+diretamente
+python -m pcc.solve_cli --edgelist data/example_edges.csv --draw
+
 
 Saída esperada:
-
-- Custo mínimo total da rota que cobre todas as arestas ao menos uma vez.
+- Custo mínimo total para cobrir todas as arestas ao menos uma vez.
 - Sequência de arestas do circuito euleriano após eulerização.
-- Arquivo `out/solution.png` com o grafo e o circuito destacado (caso o `--draw` seja usado).
+- Figura em `out/solution.png` com o circuito destacado (se `--draw`).
 
 ---
 
 ## Como o algoritmo funciona (resumo)
 
-1. Verifica se o grafo é Euleriano (todos os vértices possuem grau par). Caso afirmativo, extrai o circuito de Euler.
-2. Se não for Euleriano, identifica os vértices de grau ímpar.
-3. Calcula as distâncias mínimas entre todos os pares de vértices ímpares e resolve o pareamento perfeito mínimo.
-4. Duplica as arestas ao longo dos caminhos mínimos dos pares selecionados (eulerização).
-5. No multigrafo resultante, extrai um circuito de Euler — solução ótima para grafos não dirigidos.
+1. Verifica se o grafo é euleriano (todos os graus pares); se sim, extrai circuito de Euler.
+2. Caso contrário, identifica os vértices de grau ímpar.
+3. Calcula distâncias mínimas entre os vértices ímpares.
+4. Resolve o pareamento perfeito mínimo entre ímpares e duplica os caminhos escolhidos.
+5. Extrai um circuito de Euler no multigrafo eulerizado (solução ótima no caso não dirigido).
 
-Arquivos relevantes:
-
-- `src/pcc/chinese_postman.py`
-- `src/pcc/solve_cli.py`
-- `src/pcc/graph_io.py`
+Arquivos:
+- `src/pcc/chinese_postman.py` — implementação.
+- `src/pcc/solve_cli.py` — orquestração e desenho.
+- `src/pcc/graph_io.py` — leitura do CSV.
 
 ---
-
 ## Dados do exemplo
 
 Instância de exemplo `data/example_edges.csv` (formato CSV: u,v,w)
@@ -130,64 +128,97 @@ Abaixo está um exemplo gráfico do **Problema do Carteiro Chinês** aplicado a 
 
 ---
 
+
+
+
+## Estudo de caso real (Bairro Atalaia)
+
+Fluxo leve sem libs pesadas:
+1) No site Overpass Turbo, consulte as ruas da Atalaia (ex.: `highway=residential in "Atalaia, Aracaju"`), execute e exporte GeoJSON.  
+2) Converta para CSV `u,v,w`:
+
+python tools/geojson_to_csv.py data/osm_subgraph.geojson data/real_edges.csv
+
+3) Resolva e gere a imagem da rota:
+
+python -m pcc.solve_cli --edgelist data/real_edges.csv --draw
+
+
+Inclua a figura e o custo nos slides, citando a fonte OSM (ver seção de créditos abaixo).
+
+---
+
 ## Testes
 
-Executa um teste mínimo para garantir que:
+pytest -q
 
-- O custo retornado é pelo menos o custo base das arestas.
-  
-- O circuito retornado não é vazio.
-  
-- Usando Makefile:
-  make test
-  
-- Diretamente:
-  python -m pytest -q
-  
+ou
+make test
 
 ---
 
 ## Slides
 
-Slides em Markdown (Marp) e exportados para PDF.
+- Editar `slides/seminario.md` (Marp) e exportar PDF:
 
-- Editar: `slides/seminario.md`
-- Exportar PDF (Marp CLI):  
-  make slides  
-  ou  
-  marp slides/seminario.md --pdf --allow-local-files -o slides/seminario.pdf
+make slides
 
-Sugestão de conteúdo dos Slides:
+ou:
+marp slides/seminario.md --pdf --allow-local-files -o slides/seminario.pdf
 
-- Introdução
-- Definição do problema
-- Algoritmo (não dirigido)
-- Exemplo prático
-- Demonstração (CLI)
-- Referências.
+
+Sugestão de roteiro: Introdução → Problema → Algoritmo → Exemplo → Estudo de caso → Demonstração → Referências.
 
 ---
 
-## Entregáveis
+## Entregáveis do seminário
 
-- Slides em PDF (`slides/`).
-- Código e dados (`src/`, `data/`).
-- `README.md` com instruções.
-- Link do vídeo de apresentação (inserir quando disponível).
-
----
-
-## Execução rápida (one-liner)
-
-pip install -r requirements.txt && python -m pcc.solve_cli --edgelist data/example_edges.csv --draw
+- Slides em PDF com explicação do problema, do algoritmo e do exemplo real.
+- Código e dados reprodutíveis (este repositório).
+- Demonstração funcional (CLI).
+- README com instruções e link do vídeo.
 
 ---
 
-## Autores
+## Vídeo da apresentação
 
-- Gilson Inácio da Silva
-- Ederson
+- Link do YouTube: INSERIR AQUI.
 
-## Licença
+---
 
-- MIT (opcional). Adicione `LICENSE` para licenciar publicamente.
+## Licença do código
+
+- MIT (se optar por licenciar publicamente). Adicione o arquivo `LICENSE` com o texto da MIT License.
+
+---
+
+## Créditos e licença de dados (OSM)
+
+Este projeto utiliza recortes de vias da região do bairro Atalaia, Aracaju, SE, obtidos via Overpass Turbo a partir do OpenStreetMap.  
+- Atribuição: “Map data © OpenStreetMap contributors”.  
+- Licença dos dados: Open Database License (ODbL 1.0).  
+- Referências oficiais:
+  - Copyright e Atribuição (OSM): https://www.openstreetmap.org/copyright
+  - Diretrizes de Atribuição (OSMF): https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
+  - Texto da ODbL 1.0: https://opendatacommons.org/licenses/odbl/1-0/
+
+**Observação**: ao exibir mapas/rotas nos slides, inclua um rodapé do tipo “Map data © OpenStreetMap contributors, ODbL 1.0” na(s) lâmina(s) que mostram a figura ou em uma lâmina de créditos visível.
+
+---
+
+## Referências
+
+- Materiais de teoria de grafos (caminhos eulerianos, emparelhamento mínimo) e literatura sobre roteamento por arestas.
+- Documentação do NetworkX (funções de eulerian circuit, matching e caminhos mínimos).
+- Overpass Turbo para extração de subgrafos do OpenStreetMap.
+B,C,1
+B,D,2
+C,D,4
+C,E,2
+D,E,3
+
+
+
+
+
+
