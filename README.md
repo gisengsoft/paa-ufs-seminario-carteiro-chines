@@ -20,32 +20,51 @@ Try it (rápido)
 
 ## Estrutura do repositório
 
-```text
-.
-├── src/
-│   └── pcc/
-│       ├── __init__.py
-│       ├── chinese_postman.py      # algoritmo CPP (não dirigido)
-│       ├── graph_io.py             # leitura de CSV u,v,w
-│       └── solve_cli.py            # CLI (execução e plot)
-├── data/
-│   ├── example_edges.csv           # instância didática
-│   └── osm_subgraph.geojson        # (opcional) subgrafo OSM
-├── tools/
-│   └── geojson_to_csv.py           # GeoJSON → CSV u,v,w + nodes (leve)
-├── tests/
-│   └── test_example.py             # teste mínimo
-├── slides/
-│   ├── seminario.md                # slides (Marp)
-│   └── seminario.pdf               # exportado
-├── requirements.txt                # networkx, matplotlib, pytest
-├── Makefile                        # atalhos (Unix/Git Bash)
-├── make.ps1                        # atalhos (Windows/PowerShell)
-└── README.md
+```powershell
+python tools\geojson_to_csv.py data\osm_subgraph.geojson data\real_edges.csv --snap-m 12 --nodes-out data\real_nodes.csv --bbox "-37.0628,-10.9496,-37.0564,-10.9435"
 ```
 
----
+```bash
+python tools/geojson_to_csv.py data/osm_subgraph.geojson data/real_edges.csv --snap-m 12 --nodes-out data/real_nodes.csv --bbox "-37.0628,-10.9496,-37.0564,-10.9435"
+```
 
+2a) Resolver (visual “limpo”, sem mapa):
+
+Windows (PowerShell)
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\real_edges.csv --nodes data\real_nodes.csv --largest-component --plot `
+  --label-mode endpoints --show-start --edge-alpha 0.32 --edge-width 2.9 --fig-width 12 --fig-height 9 --dpi 320 `
+  --save-plot out\real_solution.png --save-tour out\real_tour.txt `
+  --save-geojson out\real_tour.geojson --save-gpx out\real_tour.gpx
+```
+
+Linux/macOS
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/real_nodes.csv --largest-component --plot \
+  --label-mode endpoints --show-start --edge-alpha 0.32 --edge-width 2.9 --fig-width 12 --fig-height 9 --dpi 320 \
+  --save-plot out/real_solution.png --save-tour out/real_tour.txt \
+  --save-geojson out/real_tour.geojson --save-gpx out/real_tour.gpx
+```
+
+2b) Com mapa de fundo (OpenStreetMap via contextily):
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\real_edges.csv --nodes data\real_nodes.csv --largest-component --plot `
+  --style tour --basemap --basemap-provider CartoDB.Positron --basemap-zoom 17 `
+  --label-mode endpoints --show-start --edge-alpha 0.55 --edge-width 3.4 --fig-width 13 --fig-height 9.5 --dpi 320 `
+  --save-plot out\real_solution_basemap.png --save-tour out\real_tour.txt
+```
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/real_nodes.csv --largest-component --plot \
+  --style tour --basemap --basemap-provider CartoDB.Positron --basemap-zoom 17 \
+  --label-mode endpoints --show-start --edge-alpha 0.55 --edge-width 3.4 --fig-width 13 --fig-height 9.5 --dpi 320 \
+  --save-plot out/real_solution_basemap.png --save-tour out/real_tour.txt
+```
 ## Pré‑requisitos
 
 - Python 3.10+ (recomendado 3.11/3.12)
@@ -85,8 +104,9 @@ Windows (com make.ps1)
 ```powershell
 .\make.ps1 install
 .\make.ps1 run
-.\make.ps1 plot   # salva out\example.png/out\example_tour.txt e copia a imagem para slides\img\example.png
-.\make.ps1 real   # gera real_edges/nodes, salva PNG/TXT/GeoJSON/GPX e copia a imagem para slides\img\real_solution.png
+\.\make.ps1 plot        # salva out\example.png/out\example_tour.txt e copia a imagem para slides\img\example.png
+\.\make.ps1 real        # recorte Jardins (sem mapa), gera PNG/TXT/GeoJSON/GPX e copia para slides\img\real_solution.png
+\.\make.ps1 real-basemap # recorte Jardins com mapa OSM e estilo tour (requer contextily/pyproj)
 .\make.ps1 test
 ```
 
@@ -163,7 +183,14 @@ Flags da CLI
 - `--save-geojson PATH`: exporta o tour em GeoJSON (requer `--nodes`).
 - `--save-gpx PATH`: exporta o tour em GPX (requer `--nodes`).
 - `--largest-component`: usa apenas o maior componente conexo (útil em dados reais desconexos).
-- Estilo/legibilidade: `--node-size`, `--label-size`, `--edge-alpha`, `--layout-k`.
+- Estilo/legibilidade:
+  - `--label-mode [all|junctions|odd|endpoints|none]` (novo: `endpoints` rotula apenas extremidades — grau ≤ 1)
+  - `--edge-labels` (rótulos de peso nas arestas)
+  - `--show-start` (novo: marca início/fim do tour com uma estrela)
+  - `--style [default|tour]`
+  - `--node-size`, `--label-size`, `--edge-alpha`, `--edge-width`, `--layout-k`, `--dpi`, `--fig-width`, `--fig-height`
+  - `--basemap` (novo: sobrepõe o tour em um mapa OSM; requer `--nodes` + pacote `contextily`)
+  - `--basemap-provider`, `--basemap-zoom` (opcionais – ajuste do tile provider/zoom)
 
 Saída esperada (o tour pode variar):
 
@@ -223,9 +250,68 @@ PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/
   --save-geojson out/real_tour.geojson --save-gpx out/real_tour.gpx
 ```
 
-Observação: os alvos `plot` e `real` já copiam as imagens atualizadas para `slides/img/`.
+Observação: os alvos `plot`, `real` e `real-basemap` já copiam as imagens atualizadas para `slides/img/`.
 
 ---
+
+## Presets de visualização (recomendados)
+
+Grafo pequeno (rótulos completos e pesos nas arestas)
+
+```powershell
+# Windows (PowerShell)
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\example_edges.csv --plot `
+  --label-mode all --edge-labels --show-start `
+  --node-size 650 --label-size 12 --edge-width 2.2 --edge-alpha 0.40 --dpi 280 `
+  --save-plot out\example.png --save-tour out\example_tour.txt
+```
+
+```bash
+# Linux/macOS
+PYTHONPATH=src python -m pcc.solve_cli --input data/example_edges.csv --plot \
+  --label-mode all --edge-labels --show-start \
+  --node-size 650 --label-size 12 --edge-width 2.2 --edge-alpha 0.40 --dpi 280 \
+  --save-plot out/example.png --save-tour out/example_tour.txt
+```
+
+Caso real – bairro Jardins (visual limpo, sem mapa)
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\real_edges.csv --nodes data\real_nodes.csv --largest-component --plot `
+  --label-mode endpoints --show-start --edge-alpha 0.32 --edge-width 2.9 --fig-width 12 --fig-height 9 --dpi 320 `
+  --save-plot out\real_solution.png --save-tour out\real_tour.txt
+```
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/real_nodes.csv --largest-component --plot \
+  --label-mode endpoints --show-start --edge-alpha 0.32 --edge-width 2.9 --fig-width 12 --fig-height 9 --dpi 320 \
+  --save-plot out/real_solution.png --save-tour out/real_tour.txt
+```
+
+Caso real – bairro Jardins com mapa (tour destacado)
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pcc.solve_cli --input data\real_edges.csv --nodes data\real_nodes.csv --largest-component --plot `
+  --style tour --basemap --basemap-provider CartoDB.Positron --basemap-zoom 17 `
+  --label-mode endpoints --show-start --edge-alpha 0.55 --edge-width 3.4 --fig-width 13 --fig-height 9.5 --dpi 320 `
+  --save-plot out\real_solution_basemap.png --save-tour out\real_tour.txt
+```
+
+```bash
+PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/real_nodes.csv --largest-component --plot \
+  --style tour --basemap --basemap-provider CartoDB.Positron --basemap-zoom 17 \
+  --label-mode endpoints --show-start --edge-alpha 0.55 --edge-width 3.4 --fig-width 13 --fig-height 9.5 --dpi 320 \
+  --save-plot out/real_solution_basemap.png --save-tour out/real_tour.txt
+```
+
+Observações
+
+- Em redes densas, ative `--edge-labels` somente se o número de arestas for pequeno.
+- Ajuste `--dpi`, `--fig-width` e `--fig-height` para exportações de alta qualidade.
+- Para um visual “mapa real”, combine `--basemap` + `--style tour` (veja o preset acima).
 
 ## Compatibilidade/aliases da CLI
 
