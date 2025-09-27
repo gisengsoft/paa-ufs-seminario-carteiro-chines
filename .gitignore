@@ -1,0 +1,63 @@
+# === Ambientes virtuais ===
+.venv*/
+.venv/
+venv/
+.env
+.env.*
+
+# === Python (bytecode e cache) ===
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyc
+*.pyd
+*.so
+
+# === Build / distribuição ===
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# === Notebooks ===
+.ipynb_checkpoints/
+
+# === Testes e cobertura ===
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.tox/
+.cache
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === SO (lixo) ===
+.DS_Store
+Thumbs.db
+
+# === Saídas do projeto (artefatos gerados) ===
+out/
+# Se um dia quiser versionar algo específico de out/, libere com "!out/arquivo.ext"
+
+# === Slides ===
+slides/seminario.html
+slides/.marp-cache/
+
+# === Dados ===
+# Ignore tudo em data/ exceto arquivos necessários
+data/*
+!data/example_edges.csv
+!data/osm_subgraph.geojson
+!data/real_edges.csv
+!data/real_nodes.csv
+
+# === Logs ===
+*.log
+
+# === Versão Python especificada por tools ===
+.python-version
