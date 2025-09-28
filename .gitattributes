@@ -1,0 +1,6 @@
+* text=auto
+*.py  eol=lf
+*.sh  eol=lf
+Makefile eol=lf
+*.ps1 eol=crlf
+*.bat eol=crlf
