@@ -1,3 +1,5 @@
+   
+
 # Seminário – Problema do Carteiro Chinês (PCC/CPP)
 
 ## Introdução
@@ -48,6 +50,8 @@ Arestas (peso):
 Este é o mesmo exemplo didático disponível em `data/example_edges.csv` e que gera `out/example.png` quando rodado pela nossa CLI.
 
 ## Execução via CLI do projeto (recomendado)
+
+> Pré-requisitos: Python 3.10+ e `pip install -r requirements.txt`. Execute os comandos a partir da raiz do repositório.
 
 Windows (PowerShell):
 
@@ -117,6 +121,14 @@ Crédito obrigatório: “Map data © OpenStreetMap contributors, ODbL 1.0”.
 - Para instâncias maiores, recomenda-se usar um algoritmo de emparelhamento perfeito mínimo mais geral (ex.: Blossom). A CLI deste projeto usa **DP por bitmask** e é adequada quando o número de vértices ímpares é pequeno/médio.  
 - Para grafos direcionados, a formulação envolve balanceamento de graus via fluxo mínimo.  
 - Em aplicações reais, extensões podem tornar o problema NP-difícil (como no Rural Postman Problem).
+
+## Dicas de apresentação (15 min)
+
+- Motivação (1–2 min): problemas reais (coleta, varrição, inspeção).
+- Ideia central (2–3 min): eulerianidade; “parificar” graus ímpares via duplicações mínimas.
+- Algoritmo (4–5 min): Dijkstra, emparelhamento mínimo (DP bitmask), duplicação, Hierholzer.
+- Demonstração (4–5 min): rodar o exemplo didático e mostrar o caso real; exibir `out/*.png` e, se útil, `out/*.txt`.
+- Fecho (1 min): limitações (nº de ímpares ↑), mencionar Blossom e extensões (RPP).
 
 ## Referências sugeridas
 - Apostilas de “Route Inspection Problem” (CPP).  
