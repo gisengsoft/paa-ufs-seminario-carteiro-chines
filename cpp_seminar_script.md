@@ -85,7 +85,7 @@ python3 cpp_solver.py
 ```
 Saída esperada:
 ```
-Problema do Carteiro Chinês (Não Direccionado)
+Problema do Carteiro Chinês (Não Direcionado)
 Custo Total: 16.0
 Circuito Euleriano (sequência de vértices):
 A -> C -> B -> D -> E -> C -> B -> A
