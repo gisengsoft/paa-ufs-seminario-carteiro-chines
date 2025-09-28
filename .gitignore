@@ -61,3 +61,10 @@ data/*
 
 # === Versão Python especificada por tools ===
 .python-version
+
+# Roteiros locais (não versionar)
+slides/GUIA_UNICO.md
+slides/demo_checklist.md
+slides/notas_tecnicas.md
+slides/roteiro_15min*.md
+slides/roteiro_hibrido.md
