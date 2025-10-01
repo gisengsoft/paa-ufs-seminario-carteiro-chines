@@ -1,3 +1,16 @@
+**Universidade Federal de Sergipe (UFS)**  
+**Departamento de Computação (DCOMP)**  
+**Programa de Pós-Graduação em Ciência da Computação (PROCC)**  
+
+📚 **Disciplina:** Projeto e Análise de Algoritmos  
+👨‍🏫 **Professor:** Leonardo Matos  
+
+## Alunos:
+
+- Gilson Inácio da Silva
+- Ederson Manoel de Oliveira
+
+
 # Seminário — Problema do Carteiro Chinês (PCC)
 
 Repositório do seminário da disciplina PAA/UFS sobre o Problema do Carteiro Chinês (CPP) em grafos não dirigidos. Traz implementação em Python, dados de exemplo, conversor GeoJSON→CSV, testes e slides.
