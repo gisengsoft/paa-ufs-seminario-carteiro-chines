@@ -19,7 +19,7 @@ Repositório do seminário da disciplina PAA/UFS sobre o Problema do Carteiro Ch
 
 ## Apresentação (vídeo)
 
-- YouTube: [APRESENTACAO PROBLEMA CARTEIRO CHINES - UFS - PAA - GILSON E EDERSON - YouTube](https://youtu.be/q0n0M7dWr60)
+- YouTube: [APRESENTACAO PROBLEMA CARTEIRO CHINES](https://youtu.be/q0n0M7dWr60)
 - Slides (PDF): [slides/seminario.pdf](slides/seminario.pdf)
 
 <!-- Se quiser uma miniatura clicável, substitua VIDEO_ID e descomente:
