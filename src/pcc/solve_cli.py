@@ -127,6 +127,24 @@ def _duplicate_counts_from_tour(G: nx.Graph, tour: List[str]) -> Dict[Tuple[str,
     return dup
 
 
+def _format_distance_assuming_meters(total: float) -> str:
+    """
+    Formata uma distância assumindo que 'total' está em metros:
+    - < 1000: "XYZ m"
+    - >= 1000: "X,YY km" (vírgula como separador decimal pt-BR)
+    Essa função é usada apenas para o resumo amigável no console.
+    """
+    try:
+        m = float(total)
+    except Exception:
+        return str(total)
+    if m < 1000.0:
+        # metros inteiros quando for pequeno
+        return f"{m:.0f} m"
+    km = m / 1000.0
+    return f"{km:.2f}".replace(".", ",") + " km"
+
+
 def _draw_aligned_edge_labels(ax, pos: Dict[str, Tuple[float, float]], labels: Dict[Tuple[str, str], str],
                               font_size: int = 8, offset: float = 0.02) -> None:
     """
@@ -347,8 +365,18 @@ def main(argv: Optional[List[str]] = None) -> None:
         G = _largest_connected_component(G)
 
     total, tour = solve_cpp_undirected(G)
-    print(f"Custo Total: {total}")
+    # Saída básica (arredondada)
+    print(f"Custo Total: {total:.2f}")
     print("Tour:", " -> ".join(map(str, tour)))
+
+    # Resumo amigável pós-execução
+    try:
+        dup_counts = _duplicate_counts_from_tour(G, tour)
+        ruas_repetidas = int(sum(max(c, 0) for c in dup_counts.values()))
+    except Exception:
+        ruas_repetidas = 0
+    distancia_fmt = _format_distance_assuming_meters(total)
+    print(f"Resumo: Distância total: {distancia_fmt} (assumindo pesos em metros); ruas repetidas: {ruas_repetidas} segmento(s)")
 
     pos_geo: Optional[Dict[str, Tuple[float, float]]] = None
     if args.nodes_csv:

@@ -1,4 +1,4 @@
-param([ValidateSet('install','run','plot','real','real-basemap','real-atalaia-nome','real-atalaia-bbox','test','slides','clean')][string]$task='run')
+param([ValidateSet('install','run','plot','real','real-basemap','real-atalaia-nome','real-atalaia-bbox','test','slides','slides-notes','gamma-visual','gamma-card','clean')][string]$task='run')
 
 switch ($task) {
   'install' {
@@ -103,12 +103,48 @@ switch ($task) {
     npx @marp-team/marp-cli slides\seminario.md -o slides\seminario.pdf --allow-local-files
   }
 
+  'slides-notes' {
+    if (-not (Test-Path slides\seminario_notes.md)) {
+      Write-Host "Arquivo slides/seminario_notes.md não encontrado." -ForegroundColor Yellow
+      break
+    }
+    npx @marp-team/marp-cli slides\seminario_notes.md -o slides\seminario_notes.pdf --allow-local-files
+  }
+
+  'gamma-visual' {
+    if (-not (Test-Path out\real_solution.png)) {
+      Write-Host "Gerando out/real_solution.png com tarefa 'real'..." -ForegroundColor Cyan
+      & $PSCommandPath real
+    }
+    if (-not (Test-Path slides\img)) { New-Item -ItemType Directory -Path slides\img | Out-Null }
+    $env:PYTHONPATH = 'src'
+    python tools\slide_visual_from_outputs.py --input data\real_edges.csv --nodes data\real_nodes.csv `
+      --background out\real_solution.png --out slides\img\interpretando_saida.png
+    if (Test-Path slides\img\interpretando_saida.png) {
+      Write-Host "Visual para Gamma salvo em slides/img/interpretando_saida.png" -ForegroundColor Green
+    }
+  }
+
+  'gamma-card' {
+    if (-not (Test-Path out\real_solution.png)) {
+      Write-Host "Gerando out/real_solution.png com tarefa 'real'..." -ForegroundColor Cyan
+      & $PSCommandPath real
+    }
+    if (-not (Test-Path slides\img)) { New-Item -ItemType Directory -Path slides\img | Out-Null }
+    $env:PYTHONPATH = 'src'
+    python tools\real_card_visual.py --input data\real_edges.csv `
+      --background out\real_solution.png --out slides\img\real_card.png --corner tr
+    if (Test-Path slides\img\real_card.png) {
+      Write-Host "Card compacto salvo em slides/img/real_card.png" -ForegroundColor Green
+    }
+  }
+
   'clean' {
     Remove-Item -Recurse -Force out 2>$null
     Remove-Item -Recurse -Force .pytest_cache 2>$null
   }
 
   default {
-    Write-Host "Uso: .\make.ps1 [install|run|plot|real|real-basemap|real-atalaia-nome|real-atalaia-bbox|test|slides|clean]" -ForegroundColor Yellow
+    Write-Host "Uso: .\make.ps1 [install|run|plot|real|real-basemap|real-atalaia-nome|real-atalaia-bbox|test|slides|slides-notes|gamma-visual|clean]" -ForegroundColor Yellow
   }
 }
