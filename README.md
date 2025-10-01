@@ -54,9 +54,7 @@ Visão geral da árvore de diretórios para navegação rápida.
 │     ├─ graph_io.py
 │     └─ solve_cli.py
 ├─ tools/
-│  ├─ geojson_to_csv.py
-│  ├─ real_card_visual.py
-│  └─ slide_visual_from_outputs.py
+│  └─ geojson_to_csv.py
 ├─ tests/
 │  └─ test_example.py
 ├─ slides/
