@@ -29,6 +29,60 @@ Try it (rápido)
 
 ---
 
+## Estrutura do projeto (pastas e arquivos)
+
+Visão geral da árvore de diretórios para navegação rápida.
+
+```text
+.
+├─ README.md
+├─ requirements.txt
+├─ Makefile
+├─ make.ps1
+├─ pcc_exemplo.png
+├─ cpp_solver.py
+├─ cpp_seminar_script.md
+├─ data/
+│  ├─ example_edges.csv
+│  ├─ real_edges.csv
+│  ├─ real_nodes.csv
+│  └─ osm_subgraph.geojson
+├─ src/
+│  └─ pcc/
+│     ├─ __init__.py
+│     ├─ chinese_postman.py
+│     ├─ graph_io.py
+│     └─ solve_cli.py
+├─ tools/
+│  ├─ geojson_to_csv.py
+│  ├─ real_card_visual.py
+│  └─ slide_visual_from_outputs.py
+├─ tests/
+│  └─ test_example.py
+├─ slides/
+│  ├─ seminario.pdf
+│  └─ img/
+│     ├─ example.png
+│     ├─ real_solution.png
+│     └─ real_solution_basemap.png
+└─ out/   (artefatos gerados: PNG, TXT, GeoJSON, GPX)
+```
+
+Referências rápidas:
+
+- Núcleo do algoritmo: `src/pcc/chinese_postman.py` → `solve_cpp_undirected`
+- CLI/plot/export: `src/pcc/solve_cli.py` → `main`
+- Leitura de CSV: `src/pcc/graph_io.py` → `load_graph_from_csv`
+- Conversor OSM→CSV: `tools/geojson_to_csv.py`
+- Dados de exemplo/real: `data/`
+- Automação de tarefas: `Makefile` e `make.ps1`
+- Slides e imagens: `slides/` (PDF e figuras)
+- Testes: `tests/test_example.py`
+
+Observação: a pasta `out/` é recriada pelos comandos/targets e não precisa ser versionada.
+
+---
+
 ## Estrutura do repositório
 
 ```powershell
