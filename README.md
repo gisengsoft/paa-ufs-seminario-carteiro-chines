@@ -4,6 +4,17 @@ Repositório do seminário da disciplina PAA/UFS sobre o Problema do Carteiro Ch
 
 ---
 
+## Apresentação (vídeo)
+
+- YouTube: [Assista à apresentação]([APRESENTACAO PROBLEMA CARTEIRO CHINES - UFS - PAA - GILSON E EDERSON - YouTube](https://youtu.be/q0n0M7dWr60))
+- Slides (PDF): [slides/seminario.pdf](slides/seminario.pdf)
+
+<!-- Se quiser uma miniatura clicável, substitua VIDEO_ID e descomente:
+[![Assistir no YouTube](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://youtu.be/VIDEO_ID)
+-->
+
+---
+
 Try it (rápido)
 
 - Quer ver funcionando em 1 minuto? Vá direto para o [Quickstart](#quickstart).
@@ -15,6 +26,60 @@ Try it (rápido)
 - Contextualizar o problema e aplicações (coleta de lixo, varrição, leitura de medidores etc.).
 - Explicar a solução ótima para grafos não dirigidos (eulerização via matching mínimo + circuito de Euler).
 - Disponibilizar uma CLI reprodutível, dados e slides para demonstração.
+
+---
+
+## Estrutura do projeto (pastas e arquivos)
+
+Visão geral da árvore de diretórios para navegação rápida.
+
+```text
+.
+├─ README.md
+├─ requirements.txt
+├─ Makefile
+├─ make.ps1
+├─ pcc_exemplo.png
+├─ cpp_solver.py
+├─ cpp_seminar_script.md
+├─ data/
+│  ├─ example_edges.csv
+│  ├─ real_edges.csv
+│  ├─ real_nodes.csv
+│  └─ osm_subgraph.geojson
+├─ src/
+│  └─ pcc/
+│     ├─ __init__.py
+│     ├─ chinese_postman.py
+│     ├─ graph_io.py
+│     └─ solve_cli.py
+├─ tools/
+│  ├─ geojson_to_csv.py
+│  ├─ real_card_visual.py
+│  └─ slide_visual_from_outputs.py
+├─ tests/
+│  └─ test_example.py
+├─ slides/
+│  ├─ seminario.pdf
+│  └─ img/
+│     ├─ example.png
+│     ├─ real_solution.png
+│     └─ real_solution_basemap.png
+└─ out/   (artefatos gerados: PNG, TXT, GeoJSON, GPX)
+```
+
+Referências rápidas:
+
+- Núcleo do algoritmo: `src/pcc/chinese_postman.py` → `solve_cpp_undirected`
+- CLI/plot/export: `src/pcc/solve_cli.py` → `main`
+- Leitura de CSV: `src/pcc/graph_io.py` → `load_graph_from_csv`
+- Conversor OSM→CSV: `tools/geojson_to_csv.py`
+- Dados de exemplo/real: `data/`
+- Automação de tarefas: `Makefile` e `make.ps1`
+- Slides e imagens: `slides/` (PDF e figuras)
+- Testes: `tests/test_example.py`
+
+Observação: a pasta `out/` é recriada pelos comandos/targets e não precisa ser versionada.
 
 ---
 
@@ -65,6 +130,7 @@ PYTHONPATH=src python -m pcc.solve_cli --input data/real_edges.csv --nodes data/
   --label-mode endpoints --show-start --edge-alpha 0.55 --edge-width 3.4 --fig-width 13 --fig-height 9.5 --dpi 320 \
   --save-plot out/real_solution_basemap.png --save-tour out/real_tour.txt
 ```
+
 ## Pré‑requisitos
 
 - Python 3.10+ (recomendado 3.11/3.12)
@@ -195,9 +261,17 @@ Flags da CLI
 Saída esperada (o tour pode variar):
 
 ```
-Custo Total: 16.0
+Custo Total: 16.00
 Tour: A -> C -> E -> D -> B -> C -> B -> A
+Resumo: Distância total: 16 m (assumindo pesos em metros); ruas repetidas: 1 segmento(s)
 ```
+
+Notas sobre a saída:
+
+- O valor de "Custo Total" agora é exibido com 2 casas decimais para facilitar leitura.
+- É impresso um "Resumo" amigável: a distância é formatada automaticamente em metros ou quilômetros
+  (se os pesos representarem metros), e é informada a quantidade de segmentos de rua repetidos no tour
+  (decorrentes da eulerização por duplicação de arestas).
 
 ---
 
@@ -217,7 +291,7 @@ Arquivos: `src/pcc/chinese_postman.py` (solver), `src/pcc/solve_cli.py` (CLI/plo
 ## Estudo de caso real (OSM)
 
 1) Converter GeoJSON → CSV `u,v,w` e nós (`id,lat,lon`) — ajuste `--snap-m` (em metros):
-  - Observação: `tools/geojson_to_csv.py` usa apenas a biblioteca padrão do Python (sem dependências extras).
+   - Observação: `tools/geojson_to_csv.py` usa apenas a biblioteca padrão do Python (sem dependências extras).
 
 Windows (PowerShell)
 
@@ -360,6 +434,7 @@ npx @marp-team/marp-cli slides/seminario.md -o slides/seminario.pdf
 - Grafo real desconexo: use `--largest-component` ou aumente `--snap-m` no conversor.
 - Sem `make` no Windows: use os comandos PowerShell ou crie um `make.ps1` com atalhos.
 - Ambiente sem GUI (servidor/CI): gere o arquivo com `--plot --save-plot out/fig.png` (não abrirá janela interativa).
+
 ---
 
 ## Exemplo ilustrativo
