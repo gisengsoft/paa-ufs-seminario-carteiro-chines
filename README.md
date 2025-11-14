@@ -47,7 +47,7 @@ Try it (rápido)
 Visão geral da árvore de diretórios para navegação rápida.
 
 ```text
-.
+
 ├─ README.md
 ├─ requirements.txt
 ├─ Makefile
